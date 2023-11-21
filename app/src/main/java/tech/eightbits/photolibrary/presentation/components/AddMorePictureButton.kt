@@ -22,7 +22,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import tech.eightbits.photolibrary.presentation.home.HomeViewModel
 import tech.eightbits.photolibrary.utils.PermissionState
@@ -77,7 +80,8 @@ fun AddMorePictureButton(
                 fontSize = 30.sp,
                 color = MaterialTheme.colorScheme.onBackground,
                 textAlign = TextAlign.Center,
-                modifier = Modifier.padding(16.dp)
+                modifier = Modifier.padding(16.dp),
+                lineHeight = 1.5.em
             )
         }
     }

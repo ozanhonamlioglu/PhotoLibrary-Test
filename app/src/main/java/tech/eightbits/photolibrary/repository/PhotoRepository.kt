@@ -13,10 +13,6 @@ class PhotoRepository @Inject constructor(
     private val workManager: WorkManager
 ) {
 
-    private fun saveWorkerId(id: UUID) {
-        // TODO
-    }
-
     fun upload(items: List<String>) {
         val constraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.CONNECTED)
@@ -25,13 +21,12 @@ class PhotoRepository @Inject constructor(
         val request = OneTimeWorkRequestBuilder<PhotoUploadWorkManager>()
             .setInputData(
                 workDataOf(
-                    PhotoUploadWorkManager.KEY_URI_ARRAY to items
+                    PhotoUploadWorkManager.KEY_URI_ARRAY to items.toTypedArray()
                 )
             )
             .setConstraints(constraints)
             .build()
 
-        saveWorkerId(request.id)
         workManager.enqueue(request)
     }
 
