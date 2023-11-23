@@ -83,11 +83,14 @@ class PhotoUploadWorkManager(
         const val KEY_URI_ARRAY = "KEY_URI_ARRAY"
 
         var notificationManager: PhotoNotificationManager? = null
+        var monitoring: ProcessMonitoring? = null
 
-        fun setPhotoNotificationManager(
-            manager: PhotoNotificationManager
-        ) {
-            if(notificationManager == null) notificationManager = manager
+        fun setPhotoNotificationManager(manager: PhotoNotificationManager) {
+            if (notificationManager == null) notificationManager = manager
+        }
+
+        fun setProcessMonitoring(monitor: ProcessMonitoring) {
+            if (monitoring == null) monitoring = monitor
         }
     }
 }

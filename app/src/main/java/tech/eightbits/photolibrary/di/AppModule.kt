@@ -10,6 +10,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import tech.eightbits.photolibrary.worker.PhotoNotificationManager
+import tech.eightbits.photolibrary.worker.ProcessMonitoring
 import javax.inject.Singleton
 
 @Module
@@ -34,5 +35,9 @@ object AppModule {
         notificationManager: NotificationManager,
         @ApplicationContext context: Context
     ) = PhotoNotificationManager(notificationManager, context)
+
+    @Singleton
+    @Provides
+    fun provideProcessMonitoring() = ProcessMonitoring()
 
 }

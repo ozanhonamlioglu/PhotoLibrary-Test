@@ -8,15 +8,18 @@ import androidx.work.workDataOf
 import dagger.hilt.android.scopes.ActivityRetainedScoped
 import tech.eightbits.photolibrary.worker.PhotoNotificationManager
 import tech.eightbits.photolibrary.worker.PhotoUploadWorkManager
+import tech.eightbits.photolibrary.worker.ProcessMonitoring
 import javax.inject.Inject
 
 @ActivityRetainedScoped
 class PhotoRepository @Inject constructor(
     private val workManager: WorkManager,
-    private val photoNotificationManager: PhotoNotificationManager
+    private val photoNotificationManager: PhotoNotificationManager,
+    private val monitoring: ProcessMonitoring
 ) {
     init {
         PhotoUploadWorkManager.setPhotoNotificationManager(photoNotificationManager)
+        PhotoUploadWorkManager.setProcessMonitoring(monitoring)
     }
 
     fun upload(items: List<String>) {

@@ -33,11 +33,6 @@ class PhotoNotificationManager @Inject constructor(
             .setContentText(content)
     }
 
-    fun cancelNotification() {
-        val notification = NotificationManagerCompat.from(context)
-        // TODO notification.cancel(1)
-    }
-
     companion object {
         const val CHANNEL_ID = "photo_upload_foreground_service"
         const val CHANNEL_NAME = "Upload tracing"
