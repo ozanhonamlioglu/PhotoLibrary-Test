@@ -45,9 +45,9 @@ fun AddMorePictureButton(
     }
 
     val permissionLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.RequestPermission()
-    ) {
-        if (it) {
+        contract = ActivityResultContracts.RequestMultiplePermissions()
+    ) {result ->
+        if (result.all { it.value }) {
             permissionGranted.value = PermissionState.GRANTED
             photoPickerLauncher.launch("image/*")
         } else {
@@ -59,7 +59,12 @@ fun AddMorePictureButton(
         modifier = Modifier.padding(0.dp),
         shape = RectangleShape,
         onClick = {
-            permissionLauncher.launch(HomeViewModel.storagePermission)
+            permissionLauncher.launch(
+                listOf(
+                    HomeViewModel.storagePermission,
+                    HomeViewModel.notificationPermission
+                ).toTypedArray()
+            )
         },
         contentPadding = PaddingValues(0.dp),
         colors = ButtonDefaults.buttonColors(

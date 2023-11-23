@@ -9,8 +9,10 @@ import tech.eightbits.photolibrary.ui.theme.PhotoLibraryTheme
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
             PhotoLibraryTheme {
                 Home()

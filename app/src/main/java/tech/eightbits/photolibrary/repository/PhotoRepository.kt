@@ -5,13 +5,19 @@ import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
+import dagger.hilt.android.scopes.ActivityRetainedScoped
+import tech.eightbits.photolibrary.data.PhotoNotificationManager
 import tech.eightbits.photolibrary.worker.PhotoUploadWorkManager
-import java.util.UUID
 import javax.inject.Inject
 
+@ActivityRetainedScoped
 class PhotoRepository @Inject constructor(
-    private val workManager: WorkManager
+    private val workManager: WorkManager,
+    private val photoNotificationManager: PhotoNotificationManager
 ) {
+    init {
+        PhotoUploadWorkManager.setPhotoNotificationManager(photoNotificationManager)
+    }
 
     fun upload(items: List<String>) {
         val constraints = Constraints.Builder()
@@ -29,5 +35,4 @@ class PhotoRepository @Inject constructor(
 
         workManager.enqueue(request)
     }
-
 }

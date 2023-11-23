@@ -26,5 +26,6 @@ class HomeViewModel @Inject constructor(
         val storagePermission =
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) Manifest.permission.READ_MEDIA_IMAGES
             else Manifest.permission.READ_EXTERNAL_STORAGE
+        val notificationPermission = Manifest.permission.POST_NOTIFICATIONS
     }
 }
