@@ -1,9 +1,8 @@
 package tech.eightbits.photolibrary
 
 import android.app.Application
-import android.os.Build
 import dagger.hilt.android.HiltAndroidApp
-import tech.eightbits.photolibrary.data.PhotoNotificationManager
+import tech.eightbits.photolibrary.worker.PhotoNotificationManager
 import javax.inject.Inject
 
 @HiltAndroidApp

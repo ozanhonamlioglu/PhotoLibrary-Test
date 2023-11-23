@@ -8,8 +8,6 @@ import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import com.google.firebase.Firebase
 import com.google.firebase.storage.storage
-import dagger.assisted.Assisted
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -17,7 +15,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import tech.eightbits.photolibrary.R
-import tech.eightbits.photolibrary.data.PhotoNotificationManager
 import java.lang.IllegalStateException
 
 class PhotoUploadWorkManager(

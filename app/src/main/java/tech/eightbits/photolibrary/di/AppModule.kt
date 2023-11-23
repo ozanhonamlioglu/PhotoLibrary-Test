@@ -9,8 +9,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import tech.eightbits.photolibrary.data.PhotoNotificationManager
-import tech.eightbits.photolibrary.repository.PhotoRepository
+import tech.eightbits.photolibrary.worker.PhotoNotificationManager
 import javax.inject.Singleton
 
 @Module

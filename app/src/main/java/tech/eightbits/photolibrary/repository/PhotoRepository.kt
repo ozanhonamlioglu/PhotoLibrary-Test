@@ -6,7 +6,7 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
 import dagger.hilt.android.scopes.ActivityRetainedScoped
-import tech.eightbits.photolibrary.data.PhotoNotificationManager
+import tech.eightbits.photolibrary.worker.PhotoNotificationManager
 import tech.eightbits.photolibrary.worker.PhotoUploadWorkManager
 import javax.inject.Inject
 
