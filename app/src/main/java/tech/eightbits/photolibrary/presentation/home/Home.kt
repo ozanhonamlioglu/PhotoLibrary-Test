@@ -13,6 +13,7 @@ import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
@@ -29,10 +30,14 @@ import tech.eightbits.photolibrary.presentation.components.ListItem
 fun Home(
     viewModel: HomeViewModel = hiltViewModel()
 ) {
-    val cloudList by viewModel.monitoring.urlFlow.collectAsStateWithLifecycle()
+    val cloudList by viewModel.urlFlow.collectAsStateWithLifecycle()
     val screenWidthDp = LocalConfiguration.current.screenWidthDp
 
     val minItemWidth = screenWidthDp / 5
+
+    LaunchedEffect(key1 = true) {
+        viewModel.fetchPhotos()
+    }
 
     ModalNavigationDrawer(drawerContent = {
         ModalDrawerSheet {
@@ -60,10 +65,10 @@ fun Home(
             ) {
                 itemsIndexed(
                     cloudList
-                ) {index, item ->
+                ) {index, url ->
                     ListItem(
                         minItemWidth = minItemWidth,
-                        url = item.url ?: "" // TODO it will not be null but this feature can change.
+                        url = url
                     )
                 }
             }

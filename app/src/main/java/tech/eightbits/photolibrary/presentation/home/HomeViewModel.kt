@@ -4,7 +4,12 @@ import android.Manifest
 import android.net.Uri
 import android.os.Build
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import tech.eightbits.photolibrary.repository.PhotoRepository
 import tech.eightbits.photolibrary.worker.ProcessMonitoring
 import java.util.UUID
@@ -13,16 +18,23 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val repository: PhotoRepository,
-    val monitoring: ProcessMonitoring
+    private val monitoring: ProcessMonitoring
 ) : ViewModel() {
+
+    // TODO for now we just list items which has "url" value
+    val urlFlow = monitoring.dataFlow.map {list ->
+        list.mapNotNull { it.url }
+    }.stateIn(
+        viewModelScope,
+        SharingStarted.WhileSubscribed(3000),
+        emptyList()
+    )
 
     fun startUploadProcess(items: List<Uri>) {
         repository.upload(items.map { it.toString() })
     }
 
-    fun fetchPhotos() {
-        // TODO
-    }
+    fun fetchPhotos() = repository.loadInitialItems()
 
     companion object {
         val storagePermission =

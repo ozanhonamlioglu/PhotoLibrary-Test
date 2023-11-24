@@ -9,16 +9,16 @@ import tech.eightbits.photolibrary.domain.models.ListItemModel
 
 class ProcessMonitoring {
 
-    private val mUrlFlow = MutableStateFlow<List<ListItemModel>>(emptyList())
-    val urlFlow = mUrlFlow.asStateFlow()
+    private val mDataFlow = MutableStateFlow<List<ListItemModel>>(emptyList())
+    val dataFlow = mDataFlow.asStateFlow()
 
-    fun updateUrlFlow(urls: List<ListItemModel>) {
-        mUrlFlow.update { urls }
+    fun setInitial(items: List<ListItemModel>) {
+        mDataFlow.update { items }
     }
 
-    fun addSingleItem(url: ListItemModel) {
-        mUrlFlow.update {
-            it + url
+    fun addSingleItem(item: ListItemModel) {
+        mDataFlow.update {
+            it + item
         }
     }
 
