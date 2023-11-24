@@ -6,12 +6,14 @@ import android.os.Build
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import tech.eightbits.photolibrary.repository.PhotoRepository
+import tech.eightbits.photolibrary.worker.ProcessMonitoring
 import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val repository: PhotoRepository
+    private val repository: PhotoRepository,
+    val monitoring: ProcessMonitoring
 ) : ViewModel() {
 
     fun startUploadProcess(items: List<Uri>) {

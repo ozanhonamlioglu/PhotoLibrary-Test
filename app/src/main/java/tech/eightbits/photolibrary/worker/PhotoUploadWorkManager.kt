@@ -7,6 +7,7 @@ import androidx.work.ForegroundInfo
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import com.google.firebase.Firebase
+import com.google.firebase.firestore.firestore
 import com.google.firebase.storage.storage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -15,6 +16,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import tech.eightbits.photolibrary.R
+import tech.eightbits.photolibrary.domain.models.ListItemModel
 import java.lang.IllegalStateException
 
 class PhotoUploadWorkManager(
@@ -41,6 +43,7 @@ class PhotoUploadWorkManager(
 
     private suspend fun upload(uriList: List<Uri>) {
         val storageRef = Firebase.storage.reference
+        val db = Firebase.firestore
 
         withContext(Dispatchers.IO) {
             val deferredUpload = uriList.map { uri ->
@@ -49,9 +52,27 @@ class PhotoUploadWorkManager(
 
                 async {
                     try {
-                        val taskSnapshot = imageRef.putFile(uri).await()
+                        val process = imageRef.putFile(uri).await()
+                        val url = process.metadata?.reference?.downloadUrl?.await()
+
                         setForeground(createForegroundInfo("${uploadCount++} / $totalImages is uploaded"))
-                        taskSnapshot.metadata?.reference?.downloadUrl?.toString()
+
+                        db.collection("images")
+                            .add(
+                                hashMapOf(
+                                    "url" to url
+                                )
+                            )
+                            .addOnSuccessListener {
+                                monitoring?.addSingleItem(
+                                    ListItemModel(
+                                        url = url.toString(),
+                                        fromCloud = true
+                                    )
+                                )
+                            }
+
+                        url
                     } catch (e: Exception) {
                         // TODO
                         null
