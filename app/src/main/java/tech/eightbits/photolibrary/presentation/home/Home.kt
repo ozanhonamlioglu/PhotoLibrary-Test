@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -14,11 +15,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import tech.eightbits.photolibrary.presentation.components.AddMorePictureButton
+import tech.eightbits.photolibrary.presentation.components.ListItem
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -26,6 +30,9 @@ fun Home(
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val cloudList by viewModel.monitoring.urlFlow.collectAsStateWithLifecycle()
+    val screenWidthDp = LocalConfiguration.current.screenWidthDp
+
+    val minItemWidth = screenWidthDp / 5
 
     ModalNavigationDrawer(drawerContent = {
         ModalDrawerSheet {
@@ -36,7 +43,9 @@ fun Home(
                 fontWeight = FontWeight.Bold
             )
             Divider()
-            AddMorePictureButton(onItemsSelected = {})
+            AddMorePictureButton(onItemsSelected = {
+                viewModel.startUploadProcess(it)
+            })
         }
     }) {
         Surface(
@@ -44,13 +53,18 @@ fun Home(
         ) {
 
             LazyVerticalGrid(
-                columns = GridCells.Adaptive(150.dp),
+                columns = GridCells.Adaptive(minSize = minItemWidth.dp),
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(5.dp)
             ) {
-                items(cloudList.size) {
-
+                itemsIndexed(
+                    cloudList
+                ) {index, item ->
+                    ListItem(
+                        minItemWidth = minItemWidth,
+                        url = item.url ?: "" // TODO it will not be null but this feature can change.
+                    )
                 }
             }
 
